@@ -1,0 +1,25 @@
+#lang racket
+(define sum (+ (+ 2 2) (+ 7 4 7 1))); this is a comment
+;(define hello (quote a))
+;hello
+
+(define (ounce->gram input1 input2)
+  (+ 100 (* input1 28.5))
+)
+
+(define myList (list 1 2 3 4))
+myList
+(car (cdr myList))
+
+(ounce->gram 50 100)
+
+;(set! sum 5)
+;(if (< sum 8)
+;    'true (set! sum 10)
+;    'false
+;    )
+
+;(if (< sum 10)
+;    'false
+;    'true
+;    )
