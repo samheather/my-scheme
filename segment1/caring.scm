@@ -49,9 +49,9 @@
                     (replace pattern replacement (cdr lst)))
         )))
 (define (many-replace replacement-pairs lst)
-  (if (null? replacement-pairs)
+  (if (null? replacement-pairs); if list has words
          lst
-         (let ((pat-rep (car replacement-pairs)))
+         (let ((pat-rep (car replacement-pairs))); pat-rep is a replacement pair
                 (replace (car pat-rep)
                          (cadr pat-rep)
                          (many-replace (cdr replacement-pairs)
@@ -59,6 +59,13 @@
 (define (change-person phrase)
   (many-replace '((are am) (you i) (your my) (i you) (me you) (am are) (my your))
                 phrase))
+(define (isFirstPerson lst)
+  (if (null? lst)
+      #f
+      (if (equal? (car lst) '(i))
+          #t
+          (isFirstPerson (cdr lst)))))
 (define (pick-random lst) (list-ref lst (random (length lst))))
 
-(change-person '(you are not being very helpful to me))
+;(change-person '(you are not being very helpful to me))
+(isFirstPerson '(hello i am sam))
