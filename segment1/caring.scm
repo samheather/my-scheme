@@ -4,6 +4,7 @@
     (print (list 'hello name))
     (print '(what seems to be the trouble?))
     (doctor-driver-loop name)))
+
 (define (doctor-driver-loop name)
   (begin
     (newline)
@@ -18,11 +19,14 @@
                     (print (reply user-response))
                     (doctor-driver-loop name)
                 )))))
+
 (define (reply user-response)
   (if (fifty-fifty)
         (append (qualifier) (change-person user-response))
         (hedge)))
+
 (define (fifty-fifty) (= (random 2) 0))
+
 (define (qualifier)
   (pick-random '((you seem to think)
                  (you feel that)
@@ -31,6 +35,7 @@
                  (can you tell me why you think that)
                  (why do you say that)
                  (why do you say))))
+
 (define (hedge)
   (pick-random
    '((please go on)
@@ -39,6 +44,7 @@
      (i believe that this is quite common)
      (please tell me more)
      (please continue))))
+
 (define (replace pattern replacement lst)
   (cond ((null? lst) '())
         ((equal? (car lst) pattern)
@@ -48,6 +54,7 @@
         (else (cons (car lst)
                     (replace pattern replacement (cdr lst)))
         )))
+
 (define (many-replace replacement-pairs lst)
   (if (null? replacement-pairs); if list has words
          lst
@@ -56,16 +63,39 @@
                          (cadr pat-rep)
                          (many-replace (cdr replacement-pairs)
                                        lst)))))
+
 (define (change-person phrase)
-  (many-replace '((are am) (you i) (your my) (i you) (me you) (am are) (my your))
-                phrase))
-(define (isFirstPerson lst)
-  (if (null? lst)
+  (if (isFirstPerson phrase '(i me am my))
+      (many-replace '((i you) (me you) (am are) (my your)) phrase)
+      (many-replace '((are am) (you i) (your my)) phrase)
+  )
+)
+
+(define (isFirstPerson lst firstPersonWords)
+  (cond ((conditional) return)
+        ((conditional) return)
+        ...
+        (else ))
+  (if (null? lst) ; switch to cond
       #f
-      (if (equal? (car lst) '(i))
+      (if (isEqualToOneOf (car lst) firstPersonWords)
+      ;(if (equal? (car lst) 'i)
           #t
-          (isFirstPerson (cdr lst)))))
+          (isFirstPerson (cdr lst) firstPersonWords))))
 (define (pick-random lst) (list-ref lst (random (length lst))))
 
+(define (isEqualToOneOf single lst)
+  (if (null? lst)
+      #f
+      (if (equal? single (car lst))
+          #t
+          (isEqualToOneOf single (cdr lst))
+      )
+   )
+)
+
 ;(change-person '(you are not being very helpful to me))
-(isFirstPerson '(hello i am sam))
+;(isFirstPerson '(hello you are sam))
+;(isEqualToOneOf 'sam '(hello world this is sam))
+;(isFirstPerson '(hello you are a duck) '(i me am my))
+(visit-doctor 'Sam)
