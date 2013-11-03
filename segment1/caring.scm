@@ -3,9 +3,9 @@
   (begin
     (print (list 'hello name))
     (print '(what seems to be the trouble?))
-    (doctor-driver-loop name)))
+    (doctor-driver-loop name '(thisIsAStringThatIsRemoved))))
 
-(define (doctor-driver-loop name)
+(define (doctor-driver-loop name past-responses)
   (begin
     (newline)
     (display '**)
@@ -16,14 +16,22 @@
                    (print '(see you next week))
                 )
                 (begin
-                    (print (reply user-response))
-                    (doctor-driver-loop name)
-                )))))
+                    (print (reply user-response past-responses))
+                    (if (equal? (car past-responses) 'thisIsAStringThatIsRemoved)
+                        (doctor-driver-loop name (list user-response))
+                        (doctor-driver-loop name (cons user-response past-responses))
+                ))))))
 
-(define (reply user-response)
+(define (reply user-response past-responses)
   (if (fifty-fifty)
         (append (qualifier) (change-person user-response))
-        (hedge)))
+        (if (equal? (car past-responses) 'thisIsAStringThatIsRemoved)
+            (hedge)
+            (if (fifty-fifty)
+                (hedge)
+                (if (fifty-fifty)
+                    (hedge)
+                    (append '(earlier you said) (change-person (pick-random past-responses))))))))
 
 (define (fifty-fifty) (= (random 2) 0))
 
