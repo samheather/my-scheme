@@ -10,13 +10,13 @@
 ;;
 (define-datatype  ExpVal ExpVal?
     (number-ExpVal  (a-number number?))
-    (bool-ExpVal    (a-boolean ???))
+    (bool-ExpVal    (a-boolean boolean?))
 )
 ;; Injection function for taking a scheme value into the set of Expressed Values
 (define (->ExpVal x)
   (cond
     ((number? x)  (number-ExpVal x))
-    ((boolean? x) ??? )
+    ((boolean? x) (bool-ExpVal x))
     (else (eopl:error '->ExpVal "~s cannot be an Expressed Value" x))
   )
 )
@@ -39,8 +39,8 @@
 ;; Convenience function for translating an Expressed value into a scheme value
 (define (<-ExpVal x)
   (cases ExpVal x    
-    (number-ExpVal ??? ???)
-    (bool-ExpVal   ??? ???)
+    (number-ExpVal (s) (ExpVal->number s))    ; breaks when run with (<-ExpVal (->ExpVal 123))
+    (bool-ExpVal   (s) (ExpVal->bool s))
   )
 )
 ;;
