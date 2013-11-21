@@ -13,6 +13,7 @@
     (bool-ExpVal    (a-boolean boolean?))
 )
 ;; Injection function for taking a scheme value into the set of Expressed Values
+; >>>>>>>>>> Converts scheme value into 'instance' of ExpVal.
 (define (->ExpVal x)
   (cond
     ((number? x)  (number-ExpVal x))
@@ -39,8 +40,9 @@
 ;; Convenience function for translating an Expressed value into a scheme value
 (define (<-ExpVal x)
   (cases ExpVal x    
-    (number-ExpVal (s) (ExpVal->number s))    ; breaks when run with (<-ExpVal (->ExpVal 123))
-    (bool-ExpVal   (s) (ExpVal->bool s))
+    (number-ExpVal (s) s)    ; hopefully doesn't break when run with (<-ExpVal (->ExpVal 123))
+    (bool-ExpVal   (s) s)
+    (else (ExpVal-extractor-error '(ExpVal didn't match number or bool)))
   )
 )
 ;;
