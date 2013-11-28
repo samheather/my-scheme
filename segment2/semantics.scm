@@ -9,7 +9,7 @@
 ;;
 (define (execute prog)
   (cases program prog
-    (a-program (exp) ???)
+    (a-program (exp) (value-of exp))
   )
 )
 ;;
@@ -19,18 +19,28 @@
 ;; ** Requires editing the ???s **
 (define (value-of expr)                     
   (cases expression expr    
-    (const-exp (num) ??? )
+    (const-exp (num) (->ExpVal num)) ;???
     (diff-exp (exp1 exp2)
-        (number-ExpVal (- ??? ???) )
+        (number-ExpVal (- (<-ExpVal (value-of exp1)) (<-ExpVal (value-of exp2))) )
     )
     (zero?-exp (exp)
-       (??? (zero? ???))
+       (->ExpVal (zero? (<-ExpVal (value-of exp)))) ; ???
     )
+    (equal?exp (exp1 exp2)
+       (->ExpVal (equal? (<-ExpVal (value-of exp1)) (<-ExpVal (value-of exp2)))))
+    (greater?exp (exp1 exp2)
+       (->ExpVal (> (<-ExpVal (value-of exp1)) (<-ExpVal (value-of exp2)))))
+    (less?exp (exp1 exp2)
+       (->ExpVal (< (<-ExpVal (value-of exp1)) (<-ExpVal (value-of exp2)))))
     (if-exp (test true-exp false-exp)
-         (if (ExpVal->bool ???)
-                  ???         
-                  ???       
+         (if (ExpVal->bool (value-of test)) ; ???
+                  (value-of true-exp) ; ???        
+                  (value-of false-exp) ; ???      
          ) 
     )
+    
+    (prim-exp (prim exp1 exp2)
+              ??? ; assoc here?
+              )
   )
 )

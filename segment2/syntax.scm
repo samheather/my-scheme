@@ -9,6 +9,7 @@
   '(
     (whitespace (whitespace)                skip)
     (number     (digit (arbno digit))      number)
+    (primitive  (???) ???)
    )
 )
 ; Grammar
@@ -18,13 +19,29 @@
     
     (expression (number)  const-exp)
     (expression
+      (primitive "(" expression "," expression ")") prim-exp)
+    (expression
       ("zero?" "(" expression ")") zero?-exp)  
+    (expression
+     ("equal?" "(" expression "," expression ")") equal?exp)
+    (expression
+     ("greater?" "(" expression "," expression ")") greater?exp)
+    (expression
+     ("less?" "(" expression "," expression ")") less?exp)
     (expression
      ("-" "(" expression "," expression ")")  diff-exp) 
     (expression
      ("if" expression "then" expression "else" expression) if-exp)
     )
 )
+
+; Primitives
+(list
+ ("-" (lambda (exp exp) ???))
+ ???
+ )
+      
+
 ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
 ;; Evaluating the following is *required* to construct the
 ;; data-types from the lexer and parser specs.

@@ -8,7 +8,7 @@
 (define the-lexical-spec
   '(
     (whitespace (whitespace)                skip)
-    (number     (???)                     number)
+    (number     (digit (arbno digit))      number)
    )
 )
 ; Grammar
@@ -20,9 +20,9 @@
     (expression
       ("zero?" "(" expression ")") zero?-exp)  
     (expression
-     ("-" "(" ??? ")")  diff-exp) 
+     ("-" "(" expression "," expression ")")  diff-exp) 
     (expression
-     ("if" ??? "then" ??? "else" ???) if-exp)
+     ("if" expression "then" expression "else" expression) if-exp)
     )
 )
 ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;

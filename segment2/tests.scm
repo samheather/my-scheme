@@ -1,8 +1,8 @@
 #lang eopl
 (require "syntax.scm")
-;(require "semantics.scm")
-;(require "data-structures.scm")
-;(require "driver.scm")
+(require "semantics.scm")
+(require "data-structures.scm")
+(require "driver.scm")
 ;;
 ;
 ; CORE
